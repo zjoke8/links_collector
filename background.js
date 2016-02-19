@@ -1,43 +1,53 @@
-var Scan = getConfiguration();
+var ScanStatus = false;
 var Links = new Array();
-var Target_reg = new RegExp("[\?|0-9|=|&]"); 
+chrome.storage.local.get('ScanStatus', function(result){
+	if(typeof(result.ScanStatus) != undefined)
+		ScanStatus = result.ScanStatus;
+});	
+
+
 
 function getScanStatus(){
-	return Scan;
+	return window.ScanStatus;
 }
 
 function setScanStatus(i){
-	Scan = i;
+	window.ScanStatus = i;
+	chrome.storage.local.set({'ScanStatus': i});
 	updateBrowserActionIcon();
 }
 
 
 function updateBrowserActionIcon() {
-	if(Scan)
+	if(window.ScanStatus)
 			chrome.browserAction.setIcon({path:"icon_on.png"});
 	else
 			chrome.browserAction.setIcon({path:"icon_off.png"});
 }
 
-function ScanLinks(){
-	Links = new Array();	
-	$("body a").each(function(){
-		var href = $(this).attr("href");
-		if(this.hostname == location.hostname && Target_reg.test(href)){
-			Links.push(this.href);	
-		}
-	});
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendRequest){
+	window.Links[sender.tab.id] = request;
+});
+
+
+function saveLinksData(tabid){
+	if(tabid && typeof(window.Links[tabid])!= undefined ){
+		$.ajax({
+			url: "http://localhost/links_collector/data.php",
+			cache: false,
+			type: "POST",
+			data: window.Links[tabid],
+			dataType: "json"
+		}).done(function(info) {
+			console.log(info);
+		}).fail(function(jqXHR, textStatus) {
+			return false;
+		});
+	}
 }
 
-function getAllTargetLinks(){
-	return Links;
-}
+//chrome.tabs.onUpdated.addListener(checkLinks);
 
-
-
-function getConfiguration(){
-//	chrome.storage.local.get('Scan', function (result) {});
-//	Scan = result.Scan;
-}
 
 

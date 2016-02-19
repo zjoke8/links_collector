@@ -1,0 +1,67 @@
+<style>
+.start_btn,.server_info{
+	margin: 15px 20px;
+}
+.line{
+    border-top: 1px dashed gray;
+}
+p{
+	margin: 0;
+    padding: 0;
+    line-height: 25px;
+    font-size: 12px;
+	float:left;
+	width:100%;
+}
+h3{
+	line-height: 25px;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+}
+.server_info p b{
+    width: 70px;
+    display: block;
+    float: left;
+}
+.server_info p span{
+    width: 20px;
+    display: block;
+    float: left;
+}
+.on{
+	color:#4bed3b;
+}
+.working{
+	color:#3bb4ed;
+}
+.off{
+	color:red;
+}
+.start_btn p{
+    margin: 10px 0;
+}
+.clear{clear:both;}
+.part{float:left;width:100%;}
+#control{width: 150px;float: left;}
+
+
+</style>
+<script type="text/javascript" src="jquery-1.11.1.js"></script>
+<script type="text/javascript" src="control.js"></script>
+<div id="control">
+	<div class="start_btn part"> 
+			<p><input type="button" value="Start Save Data" id="start"></p>
+	</div>
+	<div class="line part"></div>
+	<div class="server_info part">
+		<h3>Server Info:</h3>
+		<p><b>PHP:</b><span id="php_info">On</span></p>
+		<p><b>Current:</b><span id="current_page_links_num">1</span></p>
+		<p><b>Total:</b><span id="total_links_num">2</span></p>	
+		<p><b>Finish Scan:</b><span id="finish_links_num">2</span></p>	
+		<p><b>Bugs:</b><span id="find_links_num">2</span></p>
+		<p><input type="button" value="Refresh" id="refresh_server_info"></p>
+	</div>
+</div>
+
